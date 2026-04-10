@@ -39,5 +39,5 @@ tomli_w==1.2.0
 tomlkit==0.14.0
 trove-classifiers==2026.1.14.14
 userpath==1.9.2
-uv==0.10.9
+uv==0.11.6
 virtualenv==21.2.0
