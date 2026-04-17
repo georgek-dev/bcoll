@@ -1,6 +1,8 @@
-from ebooklib import epub
 from pathlib import Path
+
+from ebooklib import epub
 from rich import print
+
 
 def eprun(book):
     book = Path(book)
@@ -10,6 +12,7 @@ def eprun(book):
         # return read
     else:
         print("Hmm, this file does not exist.")
+
 
 def epfields(book):
     book = Path(book)
@@ -21,21 +24,30 @@ def epfields(book):
         print("Hmm, this file does not exist.")
         return
 
-    print("[bold yellow]Warning:[/bold yellow] The -v book values are broken for epubs. [bold red]Use at your own risk.[/bold red]")
-    print(f"Values of file [cyan]{book}[/cyan]")
-    for ns, dat in md.items():
-        for i in dat:    
-            c = i[0] if isinstance(i, (tuple, list)) else i
-            a = i[1] if isinstance(i, (tuple, list)) else i
+    fields = [
+        "identifier",
+        "title",
+        "language",
+        "creator",
+        "contributor",
+        "publisher",
+        "rights",
+        "coverage",
+        "date",
+        "description",
+    ]
+    print(f"Values of file [bold cyan]{book}[/bold cyan]")
+    for item in fields:
+        field = read.get_metadata("DC", item)
+        print(f"[bold green]DC:{item}[/bold green] [blue]{field}[/blue]")
 
-            print(f"{ns} {c} {a}")
 
 def eptitle(book):
     book = Path(book)
-    
+
     if book.exists():
         read = epub.read_epub(book)
-        tit = read.get_metadata('DC', 'title')
+        tit = read.get_metadata("DC", "title")
         if tit:
             return tit[0][0]
         else:
